@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id        String    @id @default(cuid())
+  name      String
+  type      String // BROKERAGE | CRYPTO | BANK | RETIREMENT | CASH | DEBT
+  balance   Float     @default(0)
+  currency  String    @default("USD")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  holdings  Holding[]
+}
+
+model Holding {
+  id        String   @id @default(cuid())
+  accountId String
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  symbol    String
+  name      String
+  quantity  Float
+  costBasis Float    @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([accountId, symbol])
+}
+
+model PriceCache {
+  symbol    String   @id
+  price     Float
+  currency  String   @default("USD")
+  updatedAt DateTime @updatedAt
+}

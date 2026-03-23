@@ -42,3 +42,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+wealthfolio-lite/node_modules
+wealthfolio-lite/.next
+wealthfolio-lite/prisma/dev.db
+wealthfolio-lite/next-env.d.ts
